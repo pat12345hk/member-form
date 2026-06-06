@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>華睿家族辦公室 - 會員登記表格 V7.7</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'PingFang HK', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            margin: 0;
+            padding: 10px;
+            color: #1e293b;
+            background-color: #f0f4f8;
+            line-height: 1.5;
+            -webkit-text-size-adjust: 100%;
+        }
+        
+        .form-container {
+            max-width: 850px;
+            margin: 10px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-bottom: 3px solid #c5a880;
+            margin-bottom: 20px;
+        }
+        
+        .header-table td {
+            border: none !important;
+            padding: 0 0 10px 0 !important;
+            vertical-align: middle;
+        }
+        
+        .title-area h1 {
+            margin: 0;
+            font-size: 20pt;
+            font-weight: bold;
+            color: #1a365d;
+            letter-spacing: 1px;
+            line-height: 1.2;
+        }
+        
+        .title-area .english-title {
+            margin: 4px 0;
+            font-size: 13pt;
+            color: #4a5568;
+            font-weight: 600;
+        }
+        
+        .title-area .motto {
+            margin: 4px 0 0 0;
+            font-size: 10.5pt;
+            color: #c5a880;
+            font-style: italic;
+            font-weight: 500;
+        }
+        
+        .dynamic-section, .conditional-row, .address-dynamic-block {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .instruction {
+            background-color: #f0f4f8;
+            border-left: 4px solid #1a365d;
+            padding: 10px 12px;
+            margin-bottom: 20px;
+            font-size: 9.5pt;
+            color: #2d3748;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .section-title {
+            font-size: 11pt;
+            color: #ffffff;
+            background-color: #1a365d;
+            padding: 8px 12px;
+            margin-top: 20px;
+            margin-bottom: 0;
+            font-weight: bold;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            border-bottom: 2px solid #c5a880;
+        }
+        
+        table.form-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            background-color: #ffffff;
+        }
+        
+        table.form-table td {
+            border: 1px solid #cbd5e1;
+            padding: 10px 12px;
+            vertical-align: middle;
+        }
+        
+        table.form-table td.label {
+            background-color: #f8fafc;
+            font-weight: bold;
+            color: #334155;
+            width: 22%;
+            font-size: 9.5pt;
+        }
+        
+        table.form-table td.value { width: 28%; }
+        table.form-table td.value-full { width: 78%; }
+        
+        input[type="text"], input[type="email"], input[type="tel"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 10pt;
+            color: #334155;
+            outline: none;
+            background-color: #fff;
+        }
+        
+        input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, select:focus {
+            border-color: #1a365d;
+            box-shadow: 0 0 3px rgba(26,54,93,0.2);
+        }
+        
+        .select-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .select-group select { width: auto; min-width: 90px; }
+        
+        .option-group { display: flex; flex-wrap: wrap; gap: 20px; }
+        .option-item {
+            display: flex;
+            align-items: center;
+            font-size: 10pt;
+            font-weight: 600;
+            color: #1a365d;
+            cursor: pointer;
+            padding: 4px 0;
+        }
+        .option-item input { margin-right: 6px; transform: scale(1.1); }
+        
+        .declaration-text {
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-top: none;
+            padding: 12px;
+            font-size: 9pt;
+            text-align: justify;
+            color: #475569;
+            line-height: 1.5;
+        }
+        
+        .submit-area { text-align: center; margin-top: 25px; }
+        .btn-submit {
+            background-color: #1a365d;
+            color: #ffffff;
+            border: 2px solid #1a365d;
+            padding: 12px 40px;
+            font-size: 11pt;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 320px;
+            box-shadow: 0 4px 6px rgba(26, 54, 93, 0.1);
+        }
+        
+        /* ==================== 💎 高級懸浮彈出視窗樣式 (Modal) ==================== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+        
+        .modal-box {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 750px;
+            height: 85vh;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        @keyframes modalSlideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-header {
+            background-color: #1a365d;
+            color: #ffffff;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #c5a880;
+        }
+        
+        .modal-header h3 { margin: 0; font-size: 12pt; font-weight: bold; }
+        .secure-tag { font-size: 8.5pt; background-color: #16a34a; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+        
+        .modal-body { flex: 1; width: 100%; height: 100%; background-color: #ffffff; }
+        .modal-body iframe { width: 100%; height: 100%; border: none; }
+        
+        .footer {
+            margin-top: 30px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 15px;
+            font-size: 8.5pt;
+            color: #94a3b8;
+            text-align: center;
+        }
+
+        @media screen and (max-width: 680px) {
+            .header-table td { display: block; width: 100% !important; text-align: center !important; }
+            table.form-table, table.form-table tbody, table.form-table tr, table.form-table td { display: block; width: 100% !important; }
+            table.form-table tr { border-bottom: 1px solid #cbd5e1; }
+            table.form-table td { border: none; padding: 8px 5px; }
+            table.form-table td.label { background-color: transparent; color: #1a365d; font-size: 9.5pt; padding-bottom: 2px; margin-top: 5px; }
+            .select-group { gap: 5px; }
+            .select-group select, .select-group input { width: 100% !important; margin-bottom: 5px; }
+            .modal-box { height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    
+    <form id="huaruiMasterForm" onsubmit="openSecureChannel(event)">
+        
+        <table class="header-table">
+            <tr>
+                <td class="title-area">
+                    <h1>華睿家族辦公室</h1>
+                    <div class="english-title">Hanligent Family Office</div>
+                    <div class="motto">(守富·傳富·助您傳承百年家)</div>
+                </td>
+            </tr>
+        </table>
+
+        <div class="instruction">
+            <strong>填表說明：</strong> 請選擇您的「申請類別」，系統將會動態切換您需要填寫的表格欄位。
+        </div>
+
+        <div class="section-title">步驟一：選擇申請類別 / Select Form Type</div>
+        <table class="form-table">
+            <tr>
+                <td class="label" style="background-color: #eaf2f8;">請選擇會員類型</td>
+                <td class="value-full" style="padding: 12px 10px;">
+                    <div class="option-group">
+                        <label class="option-item">
+                            <input type="radio" name="form_type" value="個人會員" onclick="toggleFormSections(this.value)" required> 
+                            👤 個人會員 (Individual)
+                        </label>
+                        <label class="option-item">
+                            <input type="radio" name="form_type" value="公司會員" onclick="toggleFormSections(this.value)"> 
+                            🏢 公司會員 (Corporate)
+                        </label>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <div id="personal_section" class="dynamic-section">
+            <div class="section-title">步驟二：填寫個人會員資料 (Individual Details)</div>
+            <table class="form-table">
+                <tr>
+                    <td class="label">中文姓名</td>
+                    <td class="value"><input type="text" id="personal_name_zh" placeholder="例：陳大文"></td>
+                    <td class="label">英文姓名</td>
+                    <td class="value"><input type="text" id="personal_name_en" placeholder="須與身份證相同"></td>
+                </tr>
+                <tr>
+                    <td class="label">身份證號碼</td>
+                    <td class="value"><input type="text" id="personal_hkid" placeholder="例：A123456(7)"></td>
+                    <td class="label">性別</td>
+                    <td class="value">
+                        <div class="option-group">
+                            <label class="option-item"><input type="radio" name="gender" value="男"> 男</label>
+                            <label class="option-item"><input type="radio" name="gender" value="女"> 女</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">聯絡電話</td>
+                    <td class="value">
+                        <div style="display: flex; gap:5px;">
+                            <select id="personal_phone_code" style="width:35%;">
+                                <option value="+852">+852 (港)</option>
+                                <option value="+86">+86 (中)</option>
+                            </select>
+                            <input type="tel" id="personal_phone" placeholder="例：91234567" style="width:65%;">
+                        </div>
+                    </td>
+                    <td class="label">電子郵件</td>
+                    <td class="value"><input type="email" id="personal_email" placeholder="例：example@mail.com"></td>
+                </tr>
+                <tr>
+                    <td class="label">最高學歷</td>
+                    <td class="value-full" colspan="3">
+                        <select id="personal_education">
+                            <option value="">-- 請選擇最高學歷 --</option>
+                            <option value="博士 (Doctorate)">博士 (Doctorate)</option>
+                            <option value="碩士 (Master's Degree)">碩士 (Master's Degree)</option>
+                            <option value="學士學位 (Bachelor's Degree)">學士學位 (Bachelor's Degree)</option>
+                            <option value="副學士 / 高級文憑 (Associate / Higher Diploma)">副學士 / 高級文憑 (Associate / Higher Diploma)</option>
+                            <option value="中學 / 高中 (Secondary School)">中學 / 高中 (Secondary School)</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">出生日期</td>
+                    <td class="value-full" colspan="3">
+                        <div class="select-group">
+                            <select id="birth_year">
+                                <option value="">選擇年份</option>
+                                <script>
+                                    for(var y=2010; y>=1950; y--) { document.write('<option value="'+y+'">'+y+' 年</option>'); }
+                                </script>
+                            </select>
+                            <select id="birth_month">
+                                <option value="">月份</option>
+                                <script>
+                                    for(var m=1; m<=12; m++) { document.write('<option value="'+m+'">'+m+' 月</option>'); }
+                                </script>
+                            </select>
+                            <select id="birth_day">
+                                <option value="">日期</option>
+                                <script>
+                                    for(var d=1; d<=31; d++) { document.write('<option value="'+d+'">'+d+' 日</option>'); }
+                                </script>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="label">通訊地址區域</td>
+                    <td class="value-full" colspan="3">
+                        <div class="option-group">
+                            <label class="option-item"><input type="radio" name="personal_address_type" value="HK" checked onclick="handleAddressTypeChange('personal', 'HK')"> 香港本地</label>
+                            <label class="option-item"><input type="radio" name="personal_address_type" value="MAINLAND" onclick="handleAddressTypeChange('personal', 'MAINLAND')"> 中國內地</label>
+                            <label class="option-item"><input type="radio" name="personal_address_type" value="OVERSEAS" onclick="handleAddressTypeChange('personal', 'OVERSEAS')"> 海外其他地區</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">詳細通訊地址</td>
+                    <td class="value-full" colspan="3">
+                        <div id="personal_addr_hk_wrap" class="select-group" style="display: flex; margin-bottom: 5px;">
+                            <select id="personal_address_region" onchange="updateDistricts(this.value)">
+                                <option value="">選擇分區</option>
+                                <option value="香港島">香港島</option>
+                                <option value="九龍">九龍</option>
+                                <option value="新界">新界</option>
+                            </select>
+                            <select id="personal_address_district">
+                                <option value="">選擇區域</option>
+                            </select>
+                        </div>
+                        <div id="personal_addr_mainland_wrap" class="address-dynamic-block" style="margin-bottom: 5px;">
+                            <div class="select-group">
+                                <input type="text" id="personal_mainland_province" placeholder="例：廣東省 (省份)" style="width: 48%;">
+                                <input type="text" id="personal_mainland_city" placeholder="例：深圳市 (城市)" style="width: 49%;">
+                            </div>
+                        </div>
+                        <div id="personal_addr_overseas_wrap" class="address-dynamic-block" style="margin-bottom: 5px;">
+                            <input type="text" id="personal_address_overseas_country" placeholder="請輸入居住國家 (例如：加拿大)">
+                        </div>
+                        <input type="text" id="personal_address_detail" placeholder="詳細路號、屋苑、大廈、房號">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="label">銀行名稱</td>
+                    <td class="value-full" colspan="3">
+                        <div class="select-group">
+                            <select id="personal_bank_select" onchange="toggleCustomBankInput(this.value, 'personal_custom_bank_wrap')">
+                                <option value="">-- 請選擇受款銀行 --</option>
+                                <option value="滙豐銀行 (HSBC)">滙豐銀行 (HSBC)</option>
+                                <option value="恒生銀行 (Hang Seng)">恒生銀行 (Hang Seng)</option>
+                                <option value="中國銀行（香港）(BOCHK)">中國銀行（香港）(BOCHK)</option>
+                                <option value="渣打銀行 (Standard Chartered)">渣打銀行 (Standard Chartered)</option>
+                                <option value="眾安銀行 (ZA Bank)">眾安銀行 (ZA Bank)</option>
+                                <option value="CUSTOM">其他（請於右側輸入）</option>
+                            </select>
+                            <div id="personal_custom_bank_wrap" style="display: none; flex: 1; min-width: 200px;">
+                                <input type="text" id="personal_bank_name_custom" placeholder="請輸入指定銀行名稱">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">銀行戶口號碼</td>
+                    <td class="value-full" colspan="3"><input type="text" id="personal_bank_account" placeholder="請輸入完整戶口號碼"></td>
+                </tr>
+                
+                <tr>
+                    <td class="label" style="background-color: #f0fdf4;">介紹人英文全名</td>
+                    <td class="value-full" colspan="3"><input type="text" id="referrer_name_personal" placeholder="Referrer Full Name (例如：CHAN TAI MAN)"></td>
+                </tr>
+
+                <tr>
+                    <td class="label" style="background-color: #fff9db;">是否掛牌在平台？</td>
+                    <td class="value-full" colspan="3">
+                        <div class="option-group">
+                            <label class="option-item" onclick="toggleLicenseFields('Y')"><input type="radio" name="is_platform_listed" value="Y"> 是 (Yes)</label>
+                            <label class="option-item" onclick="toggleLicenseFields('N')" checked><input type="radio" name="is_platform_listed" value="N" checked> 否 (No)</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr id="license_row_1" class="conditional-row">
+                    <td class="label">保險牌照號碼</td>
+                    <td class="value"><input type="text" id="insurance_license" placeholder="如無請留空"></td>
+                    <td class="label">地產牌照號碼</td>
+                    <td class="value"><input type="text" id="property_license" placeholder="如無請留空"></td>
+                </tr>
+                <tr id="license_row_2" class="conditional-row">
+                    <td class="label">證監牌照號碼</td>
+                    <td class="value-full" colspan="3"><input type="text" id="sfc_license" placeholder="如無請留空"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="corporate_section" class="dynamic-section">
+            <div class="section-title">步驟二：填寫公司會員資料 (Corporate Details)</div>
+            <table class="form-table">
+                <tr>
+                    <td class="label">公司中文名稱</td>
+                    <td class="value-full" colspan="3"><input type="text" id="company_name_zh" placeholder="請輸入公司註冊中文名稱"></td>
+                </tr>
+                <tr>
+                    <td class="label">公司英文名稱</td>
+                    <td class="value-full" colspan="3"><input type="text" id="company_name_en" placeholder="請輸入公司註冊英文名稱"></td>
+                </tr>
+                <tr>
+                    <td class="label">商業登記證號碼</td>
+                    <td class="value"><input type="text" id="br_number" placeholder="例：12345678-000"></td>
+                    <td class="label">公司業務性質</td>
+                    <td class="value"><input type="text" id="company_nature" placeholder="例：資產配置"></td>
+                </tr>
+                <tr>
+                    <td class="label">公司聯絡電話</td>
+                    <td class="value">
+                        <div style="display: flex; gap: 5px;">
+                            <select id="company_phone_code" style="width: 35%;">
+                                <option value="+852">+852 (港)</option>
+                                <option value="+86">+86 (中)</option>
+                            </select>
+                            <input type="tel" id="company_phone" placeholder="電話號碼" style="width: 65%;">
+                        </div>
+                    </td>
+                    <td class="label">公司電子郵件</td>
+                    <td class="value"><input type="email" id="company_email" placeholder="例：corp@company.com"></td>
+                </tr>
+                <tr>
+                    <td class="label">公司受款銀行</td>
+                    <td class="value-full" colspan="3">
+                        <div class="select-group">
+                            <select id="corporate_bank_select" onchange="toggleCustomBankInput(this.value, 'corporate_custom_bank_wrap')">
+                                <option value="">-- 請選擇公司對公銀行 --</option>
+                                <option value="滙豐銀行 (HSBC)">滙豐銀行 (HSBC)</option>
+                                <option value="中國銀行（香港）(BOCHK)">中國銀行（香港）(BOCHK)</option>
+                                <option value="渣打銀行 (Standard Chartered)">渣打銀行 (Standard Chartered)</option>
+                                <option value="CUSTOM">其他（請於右側輸入）</option>
+                            </select>
+                            <div id="corporate_custom_bank_wrap" style="display: none; flex: 1; min-width: 200px;">
+                                <input type="text" id="corporate_bank_name_custom" placeholder="請輸入指定銀行名稱">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">公司銀行帳戶號碼</td>
+                    <td class="value-full" colspan="3"><input type="text" id="company_bank_account" placeholder="請輸入公司入賬戶口"></td>
+                </tr>
+                <tr>
+                    <td class="label">公司地址區域</td>
+                    <td class="value-full" colspan="3">
+                        <div class="option-group">
+                            <label class="option-item"><input type="radio" name="corporate_address_type" value="HK" checked onclick="handleAddressTypeChange('corporate', 'HK')"> 香港本地</label>
+                            <label class="option-item"><input type="radio" name="corporate_address_type" value="MAINLAND" onclick="handleAddressTypeChange('corporate', 'MAINLAND')"> 中國內地公司</label>
+                            <label class="option-item"><input type="radio" name="corporate_address_type" value="OVERSEAS" onclick="handleAddressTypeChange('corporate', 'OVERSEAS')"> 海外公司</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">公司詳細地址</td>
+                    <td class="value-full" colspan="3">
+                        <div id="corporate_addr_hk_wrap" class="select-group" style="display: flex; margin-bottom: 5px;">
+                            <select id="company_region" onchange="updateCompanyDistricts(this.value)">
+                                <option value="">選擇分區</option>
+                                <option value="香港島">香港島</option>
+                                <option value="九龍">九龍</option>
+                                <option value="新界">新界</option>
+                            </select>
+                            <select id="company_district">
+                                <option value="">選擇區域</option>
+                            </select>
+                        </div>
+                        <div id="corporate_addr_mainland_wrap" class="address-dynamic-block" style="margin-bottom: 5px;">
+                            <div class="select-group">
+                                <input type="text" id="corporate_mainland_province" placeholder="例：廣東省" style="width: 48%;">
+                                <input type="text" id="corporate_mainland_city" placeholder="例：廣州市" style="width: 49%;">
+                            </div>
+                        </div>
+                        <div id="corporate_addr_overseas_wrap" class="address-dynamic-block" style="margin-bottom: 5px;">
+                            <input type="text" id="company_address_overseas_country" placeholder="請輸入註冊國家/地區">
+                        </div>
+                        <input type="text" id="company_address_detail" placeholder="詳細營業地址及辦公室房號">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label" style="background-color: #f0fdf4;">介紹人英文全名</td>
+                    <td class="value-full" colspan="3"><input type="text" id="referrer_name_corporate" placeholder="Company Referrer Full Name"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="upload_and_submit_section" class="dynamic-section">
+            <div class="section-title">步驟三：聲明及確認遞交 (Declaration & Submit)</div>
+            <div class="declaration-text">
+                本人/本公司 聲明以上所申報之所有資料及提交之證明文件均屬真實、完整及正確。如有任何資料變更，承諾會立即通知華睿家族辦公室。
+            </div>
+            <table class="form-table" style="margin-top: -1px;">
+                <tr>
+                    <td class="label">確認聲明條款</td>
+                    <td class="value-full">
+                        <label class="option-item" style="color: #475569; font-weight: normal;">
+                            <input type="checkbox" required> 本人/本公司 同意並接受上述聲明條款。
+                        </label>
+                    </td>
+                </tr>
+            </table>
+            <div class="submit-area">
+                <button type="submit" class="btn-submit">進入安全通道確認及上載證件</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="footer">
+        華睿家族辦公室 版權所有 © 2026 | 內部審批用途 (Strictly Confidential)
+    </div>
+</div>
+
+<div id="secureModal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3>🔒 華睿安全加密核對與文件上載通道</h3>
+            <span class="secure-tag">SSL 256-Bit</span>
+        </div>
+        <div class="modal-body">
+            <iframe id="secureIframe" src="about:blank">載入中…</iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleFormSections(selectedValue) {
+    var personalSec = document.getElementById('personal_section');
+    var corporateSec = document.getElementById('corporate_section');
+    var submitSec = document.getElementById('upload_and_submit_section');
+    submitSec.style.display = 'block';
+
+    if (selectedValue === '個人會員') {
+        personalSec.style.display = 'block';
+        corporateSec.style.display = 'none';
+        setRequired('personal', true);
+        setRequired('corporate', false);
+    } else if (selectedValue === '公司會員') {
+        personalSec.style.display = 'none';
+        corporateSec.style.display = 'block';
+        setRequired('personal', false);
+        setRequired('corporate', true);
+    }
+}
+
+function setRequired(prefix, isReq) {
+    if(prefix === 'personal') {
+        document.getElementById('personal_name_zh').required = isReq;
+        document.getElementById('personal_phone').required = isReq;
+        document.getElementById('personal_email').required = isReq;
+    } else {
+        document.getElementById('company_name_zh').required = isReq;
+        document.getElementById('company_phone').required = isReq;
+        document.getElementById('company_email').required = isReq;
+    }
+}
+
+function toggleLicenseFields(isListed) {
+    document.getElementById('license_row_1').style.display = (isListed === 'Y') ? 'table-row' : 'none';
+    document.getElementById('license_row_2').style.display = (isListed === 'Y') ? 'table-row' : 'none';
+}
+
+function handleAddressTypeChange(target, type) {
+    document.getElementById(target + '_addr_hk_wrap').style.display = (type === 'HK') ? 'flex' : 'none';
+    document.getElementById(target + '_addr_mainland_wrap').style.display = (type === 'MAINLAND') ? 'block' : 'none';
+    document.getElementById(target + '_addr_overseas_wrap').style.display = (type === 'OVERSEAS') ? 'block' : 'none';
+}
+
+var districts = {
+    "香港島": ["中西區 (Central & Western)", "灣仔區 (Wan Chai)", "東區 (Eastern)", "南區 (Southern)"],
+    "九龍": ["油尖旺區 (Yau Tsim Mong)", "深水埗區 (Sham Shui Po)", "九龍城區 (Kowloon City)", "黃大仙區 (Wong Tai Sin)", "觀塘區 (Kwun Tong)"],
+    "新界": ["沙田區 (Sha Tin)", "大埔區 (Tai Po)", "北區 (Northern)", "元朗區 (Yuen Long)", "屯門區 (Tuen Mun)", "荃灣區 (Tsuen Wan)", "葵青區 (Kwai Tsing)", "西貢區 (Sai Kung)", "離島區 (Islands)"]
+};
+
+function updateDistricts(region) {
+    var select = document.getElementById('personal_address_district');
+    select.innerHTML = '<option value="">選擇區域</option>';
+    if (region && districts[region]) {
+        districts[region].forEach(function(d) {
+            var opt = document.createElement('option'); opt.value = d; opt.innerHTML = d; select.appendChild(opt);
+        });
+    }
+}
+
+function updateCompanyDistricts(region) {
+    var select = document.getElementById('company_district');
+    select.innerHTML = '<option value="">選擇區域</option>';
+    if (region && districts[region]) {
+        districts[region].forEach(function(d) {
+            var opt = document.createElement('option'); opt.value = d; opt.innerHTML = d; select.appendChild(opt);
+        });
+    }
+}
+
+function toggleCustomBankInput(value, wrapperId) {
+    var wrapper = document.getElementById(wrapperId);
+    var input = wrapper.querySelector('input');
+    if (value === 'CUSTOM') { wrapper.style.display = 'block'; input.setAttribute('required', 'required'); }
+    else { wrapper.style.display = 'none'; input.removeAttribute('required'); }
+}
+
+// 🧙‍♂️ 終極移花接木：14 個 Entry ID 百分之百精準裝甲對接
+function openSecureChannel(e) {
+    e.preventDefault();
+    
+    var formType = document.querySelector('input[name="form_type"]:checked').value;
+    var name_zh = "", name_en = "", hkid_br = "", sex_nature = "", phone = "", email = "", edu = "公司件", bday = "公司件", full_addr = "", bank_name = "", bank_acc = "", referrer = "", license = "未掛牌";
+
+    if (formType === '個人會員') {
+        name_zh = document.getElementById('personal_name_zh').value;
+        name_en = document.getElementById('personal_name_en').value;
+        hkid_br = document.getElementById('personal_hkid').value;
+        
+        var genderOpt = document.querySelector('input[name="gender"]:checked');
+        sex_nature = genderOpt ? genderOpt.value : "";
+        
+        phone = document.getElementById('personal_phone_code').value + " " + document.getElementById('personal_phone').value;
+        email = document.getElementById('personal_email').value;
+        edu = document.getElementById('personal_education').value;
+        
+        var y = document.getElementById('birth_year').value;
+        var m = document.getElementById('birth_month').value;
+        var d = document.getElementById('birth_day').value;
+        bday = (y && m && d) ? (y + "/" + m + "/" + d) : "";
+        
+        // 組合個人地址
+        var addrType = document.querySelector('input[name="personal_address_type"]:checked').value;
+        if(addrType === 'HK') {
+            full_addr = "香港本地: " + document.getElementById('personal_address_region').value + " " + document.getElementById('personal_address_district').value + " " + document.getElementById('personal_address_detail').value;
+        } else if(addrType === 'MAINLAND') {
+            full_addr = "內地: " + document.getElementById('personal_mainland_province').value + " " + document.getElementById('personal_mainland_city').value + " " + document.getElementById('personal_address_detail').value;
+        } else {
+            full_addr = "海外: " + document.getElementById('personal_address_overseas_country').value + " " + document.getElementById('personal_address_detail').value;
+        }
+        
+        var bSel = document.getElementById('personal_bank_select').value;
+        bank_name = (bSel === 'CUSTOM') ? document.getElementById('personal_bank_name_custom').value : bSel;
+        bank_acc = document.getElementById('personal_bank_account').value;
+        referrer = document.getElementById('referrer_name_personal').value;
+        
+        // 組合掛牌牌照
+        var isListed = document.querySelector('input[name="is_platform_listed"]:checked').value;
+        if(isListed === 'Y') {
+            license = "保險:" + document.getElementById('insurance_license').value + " | 地產:" + document.getElementById('property_license').value + " | 證監:" + document.getElementById('sfc_license').value;
+        }
+    } else {
+        // 公司會員邏輯
+        name_zh = document.getElementById('company_name_zh').value;
+        name_en = document.getElementById('company_name_en').value;
+        hkid_br = document.getElementById('br_number').value;
+        sex_nature = document.getElementById('company_nature').value;
+        phone = document.getElementById('company_phone_code').value + " " + document.getElementById('company_phone').value;
+        email = document.getElementById('company_email').value;
+        
+        var cAddrType = document.querySelector('input[name="corporate_address_type"]:checked').value;
+        if(cAddrType === 'HK') {
+            full_addr = "香港公司: " + document.getElementById('company_region').value + " " + document.getElementById('company_district').value + " " + document.getElementById('company_address_detail').value;
+        } else if(cAddrType === 'MAINLAND') {
+            full_addr = "內地公司: " + document.getElementById('corporate_mainland_province').value + " " + document.getElementById('corporate_mainland_city').value + " " + document.getElementById('company_address_detail').value;
+        } else {
+            full_addr = "海外公司: " + document.getElementById('company_address_overseas_country').value + " " + document.getElementById('company_address_detail').value;
+        }
+        
+        var cbSel = document.getElementById('corporate_bank_select').value;
+        bank_name = (cbSel === 'CUSTOM') ? document.getElementById('corporate_bank_name_custom').value : cbSel;
+        bank_acc = document.getElementById('company_bank_account').value;
+        referrer = document.getElementById('referrer_name_corporate').value;
+    }
+
+    // 🚀 封裝成帶有自動填表參數的 14 格完美密碼 URL
+    var baseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdHWO2TYI3EW554Lgb3MtMzbFT3U7PUy9t0PZtIRZbD9KY8UQ/viewform";
+    var prefillParam = "?entry.397366362=" + encodeURIComponent(formType) +
+                       "&entry.878124253=" + encodeURIComponent(name_zh) +
+                       "&entry.1826106258=" + encodeURIComponent(name_en) +
+                       "&entry.1486888343=" + encodeURIComponent(hkid_br) +
+                       "&entry.1499433462=" + encodeURIComponent(sex_nature) +
+                       "&entry.1223333595=" + encodeURIComponent(phone) +
+                       "&entry.1084934063=" + encodeURIComponent(email) +
+                       "&entry.285994120=" + encodeURIComponent(edu) +
+                       "&entry.897746261=" + encodeURIComponent(bday) +
+                       "&entry.2097779166=" + encodeURIComponent(full_addr) +
+                       "&entry.1314065803=" + encodeURIComponent(bank_name) +
+                       "&entry.299245342=" + encodeURIComponent(bank_acc) +
+                       "&entry.2012018626=" + encodeURIComponent(referrer) +
+                       "&entry.423300758=" + encodeURIComponent(license);
+    
+    // 塞入彈出視窗加載
+    document.getElementById('secureIframe').src = baseUrl + prefillParam;
+    document.getElementById('secureModal').style.display = 'flex';
+}
+</script>
+
+</body>
+</html>
